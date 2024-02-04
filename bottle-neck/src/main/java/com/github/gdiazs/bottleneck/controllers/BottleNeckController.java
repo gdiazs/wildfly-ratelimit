@@ -32,17 +32,16 @@ public class BottleNeckController {
         if (currentCount > bottleNecCount) {
             LOGGER.error("System failed");
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(
-                    "Bad Gateway 502. Service not available");
+                    "{\"status\": \"bad gateway\"}");
         }
 
         try {
             Thread.sleep(7000);
-            COUNT.decrementAndGet();
         } catch (InterruptedException e) {
             LOGGER.error("Error when sleeping thread", e);
         }
 
         LOGGER.info("Finished! {}", currentCount);
-        return ResponseEntity.ok("success!");
+        return ResponseEntity.ok("{\"status\": \"ok\"}");
     }
 }

@@ -1,2 +1,3 @@
-FROM payara/server-full:5.2021.10
-COPY target/jakartaee-cafe.war $DEPLOY_DIR
+FROM jboss/wildfly:23.0.0.Final
+COPY target/wildfly-tests.war /opt/jboss/wildfly/standalone/deployments
+ENV BOTTLENECK_BASE_URL http://bottleneck-instance:9080/api

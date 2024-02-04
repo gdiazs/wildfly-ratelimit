@@ -1,0 +1,50 @@
+networks:
+  test-net:
+
+services:
+  bottleneck:
+    container_name: bottleneck-instance
+    image: bottleneck:latest
+    ports:
+      - "8080:8080"
+    networks:
+      default:
+      test-net:
+        aliases: 
+          - bottleneck
+
+  wildfly1:
+    container_name: wildfly1-instance
+    image: wildfly:latest
+    ports:
+      - "7081:8080"
+    networks:
+      default:
+      test-net:
+
+  wildfly2:
+    container_name: wildfly2-instance
+    image: wildfly:latest
+    ports:
+      - "7082:8080"
+    networks:
+      default:
+      test-net:
+
+  wildfly3:
+    container_name: wildfly3-instance
+    image: wildfly:latest
+    ports:
+      - "7083:8080"
+    networks:
+      default:
+      test-net:
+
+  wildfly4:
+    container_name: wildfly4-instance
+    image: wildfly:latest
+    ports:
+      - "7084:8080"
+    networks:
+      default:
+      test-net:
