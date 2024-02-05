@@ -1,5 +1,7 @@
 package com.github.gdiazs.rest.services;
 
+import com.google.common.util.concurrent.RateLimiter;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -25,19 +27,22 @@ public class BottleNeckService {
 
     private static final AtomicInteger COUNT = new AtomicInteger(0);
 
+    private static final RateLimiter LIMITER = RateLimiter.create(15);
+
     public void operation() {
-        int count = COUNT.incrementAndGet();
-        LOGGER.info(String.format("service [%s] request", count));
         String response = this.requestUsinJaxRsClient();
-        LOGGER.info(String.format("service [%s] result: %s", count, response));
     }
 
     public void operationAsync() {
+        final int count = COUNT.incrementAndGet();
+        LOGGER.info(String.format("request [%s]", count));
         this.managedExecutorService.submit(() -> {
             try {
+                LIMITER.acquire(8);
                 this.operation();
+                LOGGER.info(String.format("service [%s] result: ok", count));
             } catch (Exception e) {
-                LOGGER.log(Level.SEVERE, "async failed", e);
+                LOGGER.log(Level.SEVERE, String.format("service [%s] result: error", count));
             }
 
         });
@@ -45,8 +50,8 @@ public class BottleNeckService {
 
     private String requestUsinJaxRsClient() {
         Client client = ClientBuilder.newBuilder()
-                .connectTimeout(8, TimeUnit.SECONDS)
-                .readTimeout(8, TimeUnit.SECONDS)
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
                 .build();
 
 

@@ -5,6 +5,8 @@ services:
   bottleneck:
     container_name: bottleneck-instance
     image: bottleneck:latest
+    environment:
+      - BOTTLENECK_COUNT=90
     ports:
       - "8080:8080"
     networks:
@@ -16,6 +18,8 @@ services:
   wildfly1:
     container_name: wildfly1-instance
     image: wildfly:latest
+    environment:
+      - WILDFLY_PASSWORD=Test1234
     ports:
       - "7081:8080"
     networks:
@@ -25,6 +29,8 @@ services:
   wildfly2:
     container_name: wildfly2-instance
     image: wildfly:latest
+    environment:
+      - WILDFLY_PASSWORD=Test1234
     ports:
       - "7082:8080"
     networks:
@@ -34,6 +40,8 @@ services:
   wildfly3:
     container_name: wildfly3-instance
     image: wildfly:latest
+    environment:
+      - WILDFLY_PASSWORD=Test1234
     ports:
       - "7083:8080"
     networks:
@@ -43,6 +51,8 @@ services:
   wildfly4:
     container_name: wildfly4-instance
     image: wildfly:latest
+    environment:
+      - WILDFLY_PASSWORD=Test1234
     ports:
       - "7084:8080"
     networks:

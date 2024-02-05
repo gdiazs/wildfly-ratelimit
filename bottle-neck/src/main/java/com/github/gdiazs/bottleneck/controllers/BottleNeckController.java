@@ -1,5 +1,6 @@
 package com.github.gdiazs.bottleneck.controllers;
 
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
@@ -36,7 +37,9 @@ public class BottleNeckController {
         }
 
         try {
-            Thread.sleep(7000);
+            Thread.sleep(ThreadLocalRandom.current().nextInt(6000, 9001));
+            currentCount = COUNT.decrementAndGet();
+            
         } catch (InterruptedException e) {
             LOGGER.error("Error when sleeping thread", e);
         }
